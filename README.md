@@ -1,1 +1,1 @@
-# Server
+# KTMU Yoklama project repository
