@@ -1,0 +1,64 @@
+CREATE SCHEMA ktmu_yoklama;
+
+CREATE TABLE user_info (
+user_id int not null AUTO_INCREMENT,
+user_login varchar (50),
+user_password varchar (50),
+user_status varchar (50),
+PRIMARY KEY (user_id);
+
+CREATE TABLE student (
+student_id int not null AUTO_INCREMENT,
+student_kod varchar (50) not null,
+student_name varchar (50) not null,
+student_surname varchar (50) not null,
+student_faculty varchar (50) not null,
+student_department varchar (50)  not null,
+user_id int ,
+image1 varchar (100),
+image2 varchar (100),
+image3 varchar (100),
+image4 varchar (100),
+image5 varchar (100),
+PRIMARY KEY (student_id),
+FOREIGN KEY (user_id) REFERENCES user_info (user_id) );
+
+CREATE TABLE coach (
+coach_id int not null AUTO_INCREMENT,
+coach_kod varchar (50) not null,
+coach_name varchar (50) not null,
+coach_surname varchar (50) not null,
+user_id int,
+PRIMARY KEY (coach_id),
+FOREIGN KEY (user_id) REFERENCES user_info (user_id) );
+
+CREATE TABLE lesson (
+lesson_id int not null AUTO_INCREMENT,
+lesson_kod varchar (50) not null,
+lesson_faculty varchar (50) not null,
+lesson_department varchar (50)  not null,
+lesson_week int not null,
+lesson_status boolean default (true),
+coach_id int not null,
+PRIMARY KEY (lesson_id),
+FOREIGN KEY (coach_id) REFERENCES coach (coach_id)
+ );
+
+CREATE TABLE enroll (
+enroll_id int not null AUTO_INCREMENT,
+lesson_id int not null,
+student_id int not null,
+PRIMARY KEY (enroll_id),
+FOREIGN KEY (lesson_id) REFERENCES lesson (lesson_id),
+FOREIGN KEY (student_id) REFERENCES student (student_id)
+ );
+
+
+CREATE TABLE yoklama (
+yoklama_id int not null AUTO_INCREMENT,
+enroll_id int not null,
+yoklama_date date not null,
+yoklama_name varchar (50) ,
+PRIMARY KEY (yoklama_id),
+FOREIGN KEY (enroll_id) REFERENCES enroll (enroll_id)
+ );
